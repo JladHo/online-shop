@@ -1,14 +1,14 @@
 class DeviceController {
-	async registration(req, res) {
-		res.status(200).json({ message: 'Эндпоинт регистрации' })
+	async create(req, res) {
+		res.status(200).json({ message: 'Эндпоинт добавления девайса' })
 	}
 
-	async login(req, res) {
-		res.status(200).json({ message: 'Эндпоинт авторизации' })
+	async getAll(req, res) {
+		res.status(200).json({ message: 'Эндпоинт получения всех девайсов' })
 	}
 
-	async auth(req, res) {
-		res.status(200).json({ message: 'Эндпоинт проверки' })
+	async getOne(req, res) {
+		res.status(200).json({ message: 'Эндпоинт получения одного девайса' })
 	}
 }
 

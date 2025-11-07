@@ -1,14 +1,9 @@
 const Router = require('express')
 const router = new Router()
+const deviceController = require('../controllers/deviceController')
 
-router.post('/', (req, res) => {
-    res.status(200).json({message: "dddd"})
-})
-router.get('/', (req, res) => {
-	res.status(200).json({ message: 'dddd' })
-})
-router.get('/:id', (req, res) => {
-	res.status(200).json({ message: 'dddd' })
-})
+router.post('/', deviceController.create)
+router.get('/', deviceController.getAll)
+router.get('/:id', deviceController.getOne)
 
 module.exports = router
