@@ -1,4 +1,4 @@
-class UserController {
+class DeviceController {
 	async registration(req, res) {
 		res.status(200).json({ message: 'Эндпоинт регистрации' })
 	}
@@ -7,9 +7,9 @@ class UserController {
 		res.status(200).json({ message: 'Эндпоинт авторизации' })
 	}
 
-	async check(req, res) {
+	async auth(req, res) {
 		res.status(200).json({ message: 'Эндпоинт проверки' })
 	}
 }
 
-module.exports = new UserController()
+module.exports = new DeviceController()
