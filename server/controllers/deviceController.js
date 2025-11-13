@@ -1,18 +1,28 @@
 const uuid = require('uuid')
 const path = require('path')
-const {Device, Brand} = require('../models/models')
+const {Device, DeviceInfo} = require('../models/models')
 const ApiError = require('../error/apiError')
 const {where} = require("sequelize");
 
 class DeviceController {
 	async create(req, res, next) {
 		try {
-			const {name, price, brandId, typeId, info} = req.body
+			let {name, price, brandId, typeId, info} = req.body
 			const {img} = req.files
 			let fileName = uuid.v4() + ".jpg"
 			img.mv(path.resolve(__dirname, '..', 'static', fileName))
-
 			const device = await Device.create({name, price, brandId, typeId, img: fileName})
+
+			if (info) {
+				info = JSON.parse(info)
+				info.forEach(i =>
+					DeviceInfo.create({
+						title: i.title,
+						description: i.description,
+						deviceId: device.id
+					})
+				)
+			}
 
 			return res.json(device)
 		} catch (e) {
@@ -25,6 +35,7 @@ class DeviceController {
 		page = page || 1
 		limit = limit || 9
 		let offset = page * limit - limit
+
 		let devices;
 		if (!brandId && !typeId) {
 			devices = await Device.findAndCountAll({limit, offset})
@@ -42,7 +53,14 @@ class DeviceController {
 	}
 
 	async getOne(req, res) {
-		res.status(200).json({ message: 'Эндпоинт получения одного девайса' })
+		const {id} = req.params
+		const device = await Device.findOne(
+			{
+				where: {id},
+				include: [{model: DeviceInfo, as: 'info'}]
+			}
+		)
+		return res.json(device)
 	}
 }
 
