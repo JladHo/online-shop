@@ -11,7 +11,6 @@ class TypeController {
 	async get(req, res) {
 		const types = await Type.findAll()
 		return res.json(types)
-		// res.status(200).json({ message: 'Эндпоинт получения типа' })
 	}
 }
 
